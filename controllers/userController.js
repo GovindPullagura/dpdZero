@@ -1,8 +1,10 @@
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
-// Create a new user
 const UserController = {
+  // Create a new user
+
   registerUser: async (req, res) => {
     try {
       const { username, email, password, full_name, age, gender } = req.body;
@@ -113,6 +115,67 @@ const UserController = {
           message: "Internal server error occurred. Please try again later.",
         });
       }
+    }
+  },
+
+  // Token generation:
+  generateToken: async (req, res) => {
+    try {
+      const { username, password } = req.body;
+
+      const requiredFields = ["username", "password"];
+      const missingFields = requiredFields.filter((field) => !req.body[field]);
+
+      if (missingFields.length > 0) {
+        return res.status(400).json({
+          status: "error",
+          code: "MISSING_FIELDS",
+          message: `Missing fields. Please provide both username and password.`,
+        });
+      }
+
+      const user = await User.findOne({ where: { username } });
+      if (!user) {
+        return res.status(401).json({
+          status: "error",
+          code: "INVALID_CREDENTIALS",
+          message:
+            "Invalid credentials. The provided username or password is incorrect.",
+        });
+      }
+      // Validate the user's password
+      const passwordIsValid = await bcrypt.compare(password, user.password);
+
+      if (!passwordIsValid) {
+        return res.status(401).json({
+          status: "error",
+          code: "INVALID_CREDENTIALS",
+          message:
+            "Invalid credentials. The provided username or password is incorrect.",
+        });
+      }
+
+      // If the credentials are valid, generate a JWT
+      const token = jwt.sign({ username: user.username }, "dpdzero", {
+        expiresIn: "3600", // Adjusted the expiration time as 3600 seconds
+      });
+
+      // Return the token in the response
+      res.status(200).send({
+        status: "success",
+        message: "Access token generated successfully.",
+        data: {
+          access_token: token,
+          expires_in: 3600,
+        },
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        status: "error",
+        code: "INTERNAL_SERVER_ERROR",
+        message: "Internal server error occurred. Please try again later.",
+      });
     }
   },
 };
