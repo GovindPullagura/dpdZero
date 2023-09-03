@@ -1,88 +1,118 @@
-// controllers/userController.js
 const User = require("../models/User");
+const bcrypt = require("bcrypt");
 
+// Create a new user
 const UserController = {
-  // Get all users
-  getAllUsers: async (req, res) => {
+  registerUser: async (req, res) => {
     try {
-      const users = await User.findAll();
-      res.json(users);
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: "Internal Server Error" });
-    }
-  },
+      const { username, email, password, full_name, age, gender } = req.body;
 
-  // Get user by ID
-  getUserById: async (req, res) => {
-    const { id } = req.params;
-    try {
-      const user = await User.findByPk(id);
-      if (!user) {
-        return res.status(404).json({ error: "User not found" });
+      const requiredFields = [
+        "username",
+        "email",
+        "password",
+        "full_name",
+        "age",
+        "gender",
+      ];
+      const missingFields = requiredFields.filter((field) => !req.body[field]);
+
+      if (missingFields.length > 0) {
+        res.status(400).json({
+          status: "error",
+          code: "INVALID_REQUEST",
+          message: `Invalid request. Please provide all required fields: ${missingFields.join(
+            ", "
+          )}.`,
+        });
+        return; // Exit the function early
       }
-      res.json(user);
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: "Internal Server Error" });
-    }
-  },
 
-  // Create a new user
-  createUser: async (req, res) => {
-    const { username, email, password, full_name, age, gender } = req.body;
-    try {
+      // password validation before hashing
+      const passwordRegex =
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+      if (!passwordRegex.test(password)) {
+        return res.status(400).json({
+          status: "error",
+          code: "INVALID_PASSWORD",
+          message:
+            "The provided password does not meet the requirements. Password must be at least 8 characters long and contain a mix of uppercase and lowercase letters, numbers, and special characters.",
+        });
+      }
+
+      // hashing the password:
+      let hashedPassword = await bcrypt.hashSync(password, 5);
+
       const newUser = await User.create({
         username,
         email,
-        password,
+        password: hashedPassword,
         full_name,
         age,
         gender,
       });
-      res.status(201).json(newUser);
+      const user_id = newUser.id;
+      res.status(201).json({
+        status: "success",
+        message: "User successfully registered!",
+        data: {
+          user_id,
+          username,
+          email,
+          full_name,
+          age,
+          gender,
+        },
+      });
     } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: "Internal Server Error" });
-    }
-  },
+      // Error Handling:
 
-  // Update user by ID
-  updateUser: async (req, res) => {
-    const { id } = req.params;
-    const { username, email, password, full_name, age, gender } = req.body;
-    try {
-      const user = await User.findByPk(id);
-      if (!user) {
-        return res.status(404).json({ error: "User not found" });
+      console.log(error);
+      if (error.name == "SequelizeValidationError") {
+        if (error.errors[0].message == "Invalid Password.") {
+          res.status(400).send({
+            status: "error",
+            code: "INVALID_PASSWORD",
+            message:
+              "The provided password does not meet the requirements. Password must be at least 8 characters long and contain a mix of uppercase and lowercase letters, numbers, and special characters.",
+          });
+        } else if (error.errors[0].message == "Invalid age.") {
+          res.status(400).send({
+            status: "error",
+            code: "INVALID_AGE",
+            message: "Invalid age value. Age must be a positive integer.",
+          });
+        } else if (error.errors[0].message == "Invalid gender.") {
+          res.status(400).send({
+            status: "error",
+            code: "GENDER_REQUIRED",
+            message:
+              "Gender field is required. Please specify the gender (e.g., male, female, non-binary).",
+          });
+        }
+      } else if (error.name == "SequelizeUniqueConstraintError") {
+        if (error.fields.username) {
+          res.status(400).send({
+            status: "error",
+            code: "USERNAME_EXISTS",
+            message:
+              "The provided username is already taken. Please choose a different username.",
+          });
+        } else if (error.fields.email) {
+          res.status(400).send({
+            status: "error",
+            code: "EMAIL_EXISTS",
+            message:
+              "The provided email is already registered. Please use a different email address.",
+          });
+        }
+      } else {
+        res.status(500).send({
+          status: "error",
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Internal server error occurred. Please try again later.",
+        });
       }
-      user.username = username;
-      user.email = email;
-      user.password = password;
-      user.full_name = full_name;
-      user.age = age;
-      user.gender = gender;
-      await user.save();
-      res.json(user);
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: "Internal Server Error" });
-    }
-  },
-
-  // Delete user by ID
-  deleteUser: async (req, res) => {
-    const { id } = req.params;
-    try {
-      const user = await User.findByPk(id);
-      if (!user) {
-        return res.status(404).json({ error: "User not found" });
-      }
-      await user.destroy();
-      res.status(204).send(); // No content (successful deletion)
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: "Internal Server Error" });
     }
   },
 };

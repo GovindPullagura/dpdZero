@@ -7,6 +7,7 @@ const User = sequelize.define(
     username: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: true,
     },
     email: {
       type: DataTypes.STRING,
@@ -24,10 +25,23 @@ const User = sequelize.define(
     age: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      validate: {
+        isPositiveInteger(value) {
+          if (!Number.isInteger(value) || value <= 0) {
+            throw new Error("Invalid age.");
+          }
+        },
+      },
     },
     gender: {
       type: DataTypes.STRING,
       allowNull: false,
+      validate: {
+        isIn: {
+          args: [["male", "female", "non-binary"]],
+          msg: "Invalid gender.",
+        },
+      },
     },
   },
   {
