@@ -54,7 +54,38 @@ const DataController = {
         });
       }
       res.status(500).send({
-        status: error,
+        status: "error",
+        code: "INTERNAL_SERVER_ERROR",
+        message: "Internal server error occurred. Please try again later.",
+      });
+    }
+  },
+
+  retrieveData: async (req, res) => {
+    try {
+      const { key } = req.params;
+
+      const retrievedData = await Data.findOne({ where: { key } });
+      if (retrievedData) {
+        res.send({
+          status: "success",
+          data: {
+            key: retrievedData.key,
+            value: retrievedData.value,
+          },
+        });
+      } else {
+        res.status(400).send({
+          status: "error",
+          code: "KEY_NOT_FOUND",
+          message: "The provided key does not exist in the database.",
+        });
+      }
+    } catch (error) {
+      console.log(error);
+
+      res.status(500).send({
+        status: "error",
         code: "INTERNAL_SERVER_ERROR",
         message: "Internal server error occurred. Please try again later.",
       });

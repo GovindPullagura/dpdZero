@@ -7,11 +7,16 @@ const auth = (req, res, next) => {
     try {
       const decoded = jwt.verify(token, "dpdzero");
       if (decoded) {
-        res.send("Validation Success");
         next();
       }
     } catch (error) {
-      res.status(401).send({ msg: error.message });
+      res
+        .status(401)
+        .send({
+          status: "error",
+          code: "INVALID_TOKEN",
+          message: "Invalid access token provided",
+        });
     }
   } else {
     res.status(401).send({ msg: "Token required" });
