@@ -105,6 +105,12 @@ const DataController = {
           status: "success",
           message: "Data updated successfully.",
         });
+      } else {
+        res.status(400).send({
+          status: "error",
+          code: "KEY_NOT_FOUND",
+          message: "The provided key does not exist in the database.",
+        });
       }
     } catch (error) {
       console.log(error);
@@ -113,6 +119,35 @@ const DataController = {
         status: "error",
         code: "INTERNAL_SERVER_ERROR",
         message: "Internal server error occurred. Please try again later.",
+      });
+    }
+  },
+
+  deleteData: async (req, res) => {
+    try {
+      const { key } = req.params;
+      const retrievedData = await Data.findOne({ where: { key } });
+      if (retrievedData) {
+        await retrievedData.destroy();
+
+        res.send({
+          status: "success",
+          message: "Data deleted successfully.",
+        });
+      } else {
+        res.status(400).send({
+          status: "error",
+          code: "KEY_NOT_FOUND",
+          message: "The provided key does not exist in the database.",
+        });
+      }
+    } catch (error) {
+      console.log(error);
+
+      res.status(500).send({
+        status: "error",
+        code: "INTERNAL_SERVER_ERROR",
+        message: error.message,
       });
     }
   },
