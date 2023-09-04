@@ -73,17 +73,56 @@ To get started with DPDZero, follow the instructions below:
    **Endpoint: `POST /api/register`**
    This endpoint is for registering a new user.
 
+   **Request:**
+
    ```json
    {
      "username": "example_user",
      "email": "user@example.com",
-     "password": "secure_password123",
+     "password": "Password@123",
      "full_name": "John Doe",
      "age": 30,
      "gender": "male"
    }
    ```
 
-```
+   **Success Response:**
 
-```
+   ```json
+   {
+     "status": "success",
+     "message": "User successfully registered!",
+     "data": {
+       "user_id": "12345",
+       "username": "example_user",
+       "email": "user@example.com",
+       "full_name": "John Doe",
+       "age": 30,
+       "gender": "male"
+     }
+   }
+   ```
+
+   **Error Response:**
+
+   ```json
+   {
+     "status": "error",
+     "code": "INVALID_REQUEST",
+     "message": "Invalid request. Please provide all required fields: username, email, password, full_name."
+   }
+   ```
+
+   **Error codes:**
+
+   ### Error Codes
+
+| Error Code       | Description                                                                                                                                                                              |
+| ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| INVALID_REQUEST  | Invalid request. Please provide all required fields.                                                                                                                                     |
+| USERNAME_EXISTS  | The provided username is already taken. Choose a different username.                                                                                                                     |
+| EMAIL_EXISTS     | The provided email is already registered. Use a different email address.                                                                                                                 |
+| INVALID_PASSWORD | The provided password does not meet the requirements. Password must be at least 8 characters long and contain a mix of uppercase and lowercase letters, numbers, and special characters. |
+| INVALID_AGE      | Invalid age value. Age must be a positive integer.                                                                                                                                       |
+| GENDER_REQUIRED  | Gender field is required. Please specify the gender (e.g., male, female, non-binary).                                                                                                    |
+| INTERNAL_ERROR   | Internal server error occurred. Please try again later.                                                                                                                                  |
