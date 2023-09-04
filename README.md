@@ -8,6 +8,7 @@ DPDZero is a web application that allows users to store and manage key-value pai
 - [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
+- [Database Schema](#database-schema)
 - [API Endpoints](#api-endpoints)
   - [User Registration](#user-registration)
   - [Generate Token](#generate-token)
@@ -63,6 +64,29 @@ To get started with DPDZero, follow the instructions below:
    nodemon index.js
    ```
    The application will start, and you should see a message indicating that the server is running.
+
+### Database Schema
+
+DPDZero uses a MySQL database to store user accounts and data. Below are the details of the database schema:
+
+**User Table (`User`)**
+
+| Field       | Type    | Constraints                                          |
+| ----------- | ------- | ---------------------------------------------------- |
+| `username`  | STRING  | Not nullable, unique                                 |
+| `email`     | STRING  | Not nullable, unique                                 |
+| `password`  | STRING  | Not nullable                                         |
+| `full_name` | STRING  | Not nullable                                         |
+| `age`       | INTEGER | Not nullable, positive integer                       |
+| `gender`    | STRING  | Not nullable, enum: ["male", "female", "non-binary"] |
+
+**Data Table (`Data`)**
+
+| Field      | Type    | Constraints  |
+| ---------- | ------- | ------------ |
+| `key`      | STRING  | Not nullable |
+| `value`    | INTEGER | Not nullable |
+| `username` | STRING  | Not nullable |
 
 ## API Endpoints
 
