@@ -159,3 +159,39 @@ This endpoint is for generating a new access token.
 | `INVALID_CREDENTIALS` | Invalid credentials. The provided username or password is incorrect. |
 | `MISSING_FIELDS` | Missing fields. Please provide both username and password. |
 | `INTERNAL_ERROR` | Internal server error occurred. Please try again later. |
+
+### Store data:
+
+To store a key-value pair in the database.
+
+**Endpoint**: `POST /api/data`
+
+**Request:**
+
+**Request Headers**:
+
+- **`Authorization`**: Bearer **`access_token`**
+
+```json
+{
+  "key": "laptop",
+  "value": 60000
+}
+```
+
+**Success Response:**
+
+```json
+{
+  "status": "success",
+  "message": "Data stored successfully."
+}
+```
+
+**Error codes:**
+| Error Code | Description |
+| --------------- | ------------------------------------------------------------- |
+| `INVALID_KEY` | The provided key is not valid or missing. |
+| `INVALID_VALUE` | The provided value is not valid or missing. |
+| `KEY_EXISTS` | The provided key already exists in the database. To update an existing key, use the update API. |
+| `INVALID_TOKEN` | Invalid access token provided.
