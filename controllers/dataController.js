@@ -91,6 +91,31 @@ const DataController = {
       });
     }
   },
+
+  updateData: async (req, res) => {
+    try {
+      const { key } = req.params;
+
+      const retrievedData = await Data.findOne({ where: { key } });
+      if (retrievedData) {
+        retrievedData.value = req.body.value;
+        await retrievedData.save();
+
+        res.status(200).send({
+          status: "success",
+          message: "Data updated successfully.",
+        });
+      }
+    } catch (error) {
+      console.log(error);
+
+      res.status(500).send({
+        status: "error",
+        code: "INTERNAL_SERVER_ERROR",
+        message: "Internal server error occurred. Please try again later.",
+      });
+    }
+  },
 };
 
 module.exports = DataController;
