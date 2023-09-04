@@ -1,6 +1,8 @@
-DB_USERNAME = <database_username>
-DB_HOST = <datbase_host>
-DB_NAME = <database_name>
+DB_USERNAME = <your_database_username>
+DB_HOST = <your_datbase_host>
+DB_NAME = <your_database_name>
 DB_PASSWORD = <your_SQLDB_password>
 
-PORT = 8080
+JWT_KEY = <your_jwt_key>
+
+PORT = <port_to_run_the_app>

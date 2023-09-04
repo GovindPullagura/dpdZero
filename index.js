@@ -10,11 +10,7 @@ const app = express();
 
 app.use(express.json());
 
-app.get("/", (req, res) => {
-  res.send("Welcome to DPDZero!");
-});
-
-app.use("/users", userRouter);
+app.use("/", userRouter);
 app.use(auth);
 app.use("/data", dataRouter);
 
