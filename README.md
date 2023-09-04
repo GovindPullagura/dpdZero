@@ -195,3 +195,89 @@ To store a key-value pair in the database.
 | `INVALID_VALUE` | The provided value is not valid or missing. |
 | `KEY_EXISTS` | The provided key already exists in the database. To update an existing key, use the update API. |
 | `INVALID_TOKEN` | Invalid access token provided.
+
+### Retrieve Data
+
+To retrieve the value associated with a specific key.
+
+**Endpoint**: `GET /api/data/{key}`
+
+**Request Headers**:
+
+- **`Authorization`**: Bearer **`access_token`**
+
+**Success Response:**
+
+```json
+{
+  "status": "success",
+  "data": {
+    "key": "key",
+    "value": "value"
+  }
+}
+```
+
+**Error codes:**
+| Error Code | Description |
+| --------------- | ------------------------------------------------ |
+| `KEY_NOT_FOUND` | The provided key does not exist in the database. |
+| `INVALID_TOKEN` | Invalid access token provided. |
+
+### Update Data
+
+To update the value associated with an existing key.
+
+**Endpoint**: `PUT /api/data/{key}`
+
+**Request Headers**:
+
+- **`Authorization`**: Bearer **`access_token`**
+
+**Request:**
+
+```json
+{
+  "value": "new_data_value"
+}
+```
+
+**Success Response:**
+
+```json
+{
+  "status": "success",
+  "message": "Data updated successfully."
+}
+```
+
+**Error codes:**
+| Error Code | Description |
+| ------------------ | -------------------------------------------------------------- |
+| `KEY_NOT_FOUND` | The provided key does not exist in the database. |
+| `INVALID_TOKEN` | Invalid access token provided. |
+
+### Delete Data
+
+To delete the value associated with an existing key.
+
+**Endpoint**: `DELETE /api/data/{key}`
+
+**Request Headers**:
+
+- **`Authorization`**: Bearer **`access_token`**
+
+**Success Response:**
+
+```json
+{
+  "status": "success",
+  "message": "Data deleted successfully."
+}
+```
+
+**Error codes:**
+| Error Code | Description |
+| ------------------ | -------------------------------------------------------------- |
+| `KEY_NOT_FOUND` | The provided key does not exist in the database. |
+| `INVALID_TOKEN` | Invalid access token provided. |
