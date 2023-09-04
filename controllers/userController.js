@@ -1,7 +1,7 @@
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-require("dotenv").config();
+// require("dotenv").config();
 
 const UserController = {
   // Create a new user
@@ -157,7 +157,7 @@ const UserController = {
       }
 
       // If the credentials are valid, generate a JWT
-      const token = jwt.sign({ username: user.username }, process.env.JWT_KEY, {
+      const token = jwt.sign({ username: user.username }, "dpdzero", {
         expiresIn: 3600, // Adjusted the expiration time as 3600 seconds
       });
 

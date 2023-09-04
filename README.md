@@ -302,7 +302,7 @@ To delete the value associated with an existing key.
 | `KEY_NOT_FOUND` | The provided key does not exist in the database. |
 | `INVALID_TOKEN` | Invalid access token provided. |
 
-### Tech Stack
+## Tech Stack
 
 DPDZero is built using the following technologies and libraries:
 
