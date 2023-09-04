@@ -9,12 +9,12 @@ DPDZero is a web application that allows users to store and manage key-value pai
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
 - [API Endpoints](#api-endpoints)
-  - [User Registration](#1-user-registration)
-  - [Generate Token](#2-generate-token)
-  - [Store Data](#3-store-data)
-  - [Retrieve Data](#4-retrieve-data)
-  - [Update Data](#5-update-data)
-  - [Delete Data](#6-delete-data)
+  - [User Registration](#user-registration)
+  - [Generate Token](#generate-token)
+  - [Store Data](#store-data)
+  - [Retrieve Data](#retrieve-data)
+  - [Update Data](#update-data)
+  - [Delete Data](#delete-data)
 - [Authentication](#authentication)
 - [Database](#database)
 - [Error Handling](#error-handling)
@@ -70,92 +70,92 @@ To get started with DPDZero, follow the instructions below:
 
 ## API Endpoints
 
-1. **User Registration:**
+### User Registration:
 
-   **Endpoint: `POST /api/register`**
-   This endpoint is for registering a new user.
+**Endpoint: `POST /api/register`**
+This endpoint is for registering a new user.
 
-   **Request:**
+**Request:**
 
-   ```json
-   {
-     "username": "example_user",
-     "email": "user@example.com",
-     "password": "Password@123",
-     "full_name": "John Doe",
-     "age": 30,
-     "gender": "male"
-   }
-   ```
+```json
+{
+  "username": "example_user",
+  "email": "user@example.com",
+  "password": "Password@123",
+  "full_name": "John Doe",
+  "age": 30,
+  "gender": "male"
+}
+```
 
-   **Success Response:**
+**Success Response:**
 
-   ```json
-   {
-     "status": "success",
-     "message": "User successfully registered!",
-     "data": {
-       "user_id": "12345",
-       "username": "example_user",
-       "email": "user@example.com",
-       "full_name": "John Doe",
-       "age": 30,
-       "gender": "male"
-     }
-   }
-   ```
+```json
+{
+  "status": "success",
+  "message": "User successfully registered!",
+  "data": {
+    "user_id": "12345",
+    "username": "example_user",
+    "email": "user@example.com",
+    "full_name": "John Doe",
+    "age": 30,
+    "gender": "male"
+  }
+}
+```
 
-   **Error Response:**
+**Error Response:**
 
-   ```json
-   {
-     "status": "error",
-     "code": "INVALID_REQUEST",
-     "message": "Invalid request. Please provide all required fields: username, email, password, full_name."
-   }
-   ```
+```json
+{
+  "status": "error",
+  "code": "INVALID_REQUEST",
+  "message": "Invalid request. Please provide all required fields: username, email, password, full_name."
+}
+```
 
-   **Error codes:**
-   | Error Code | Description |
-   | ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-   | INVALID_REQUEST | Invalid request. Please provide all required fields. |
-   | USERNAME_EXISTS | The provided username is already taken. Choose a different username. |
-   | EMAIL_EXISTS | The provided email is already registered. Use a different email address. |
-   | INVALID_PASSWORD | The provided password does not meet the requirements. Password must be at least 8 characters long and contain a mix of uppercase and lowercase letters, numbers, and special characters. |
-   | INVALID_AGE | Invalid age value. Age must be a positive integer. |
-   | GENDER_REQUIRED | Gender field is required. Please specify the gender (e.g., male, female, non-binary). |
-   | INTERNAL_ERROR | Internal server error occurred. Please try again later. |
+**Error codes:**
+| Error Code | Description |
+| ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| INVALID_REQUEST | Invalid request. Please provide all required fields. |
+| USERNAME_EXISTS | The provided username is already taken. Choose a different username. |
+| EMAIL_EXISTS | The provided email is already registered. Use a different email address. |
+| INVALID_PASSWORD | The provided password does not meet the requirements. Password must be at least 8 characters long and contain a mix of uppercase and lowercase letters, numbers, and special characters. |
+| INVALID_AGE | Invalid age value. Age must be a positive integer. |
+| GENDER_REQUIRED | Gender field is required. Please specify the gender (e.g., male, female, non-binary). |
+| INTERNAL_ERROR | Internal server error occurred. Please try again later. |
 
-2. **Generate Token:**
+### Generate Token:
 
-   **Endpoint**: `POST /api/token`
-   This endpoint is for generating a new access token.
+**Endpoint**: `POST /api/token`
+This endpoint is for generating a new access token.
 
-   **Request:**
+**Request:**
 
-   ```json
-   {
-     "username": "example_user",
-     "password": "Password@123"
-   }
-   ```
+```json
+{
+  "username": "example_user",
+  "password": "Password@123"
+}
+```
 
-   **Success Response:**
+**Success Response:**
 
-   ```json
-   {
-     "status": "success",
-     "message": "Access token generated successfully.",
-     "data": {
-       "access_token": "<TOKEN>",
-       "expires_in": 3600
-     }
-   }
-   ```
+```json
+{
+  "status": "success",
+  "message": "Access token generated successfully.",
+  "data": {
+    "access_token": "<TOKEN>",
+    "expires_in": 3600
+  }
+}
+```
 
-   **Error codes:**
-   | Error Code | Description |
-   | --------------------- | -------------------------------------------------------------------- |
-   | `INVALID_CREDENTIALS` | Invalid credentials. The provided username or password is incorrect. |
-   | `MISSING_FIELDS` | Missing fields. Please provide both username and password. |
-   | `INTERNAL_ERROR` | Internal server error occurred. Please try again later. |
+**Error codes:**
+| Error Code | Description |
+| --------------------- | -------------------------------------------------------------------- |
+| `INVALID_CREDENTIALS` | Invalid credentials. The provided username or password is incorrect. |
+| `MISSING_FIELDS` | Missing fields. Please provide both username and password. |
+| `INTERNAL_ERROR` | Internal server error occurred. Please try again later. |
