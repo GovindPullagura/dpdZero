@@ -65,7 +65,7 @@ To get started with DPDZero, follow the instructions below:
    ```
    The application will start, and you should see a message indicating that the server is running.
 
-### Database Schema
+## Database Schema
 
 DPDZero uses a MySQL database to store user accounts and data. Below are the details of the database schema:
 
