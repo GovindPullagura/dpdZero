@@ -9,10 +9,12 @@ DPDZero is a web application that allows users to store and manage key-value pai
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
 - [API Endpoints](#api-endpoints)
-  - [Store Data](#store-data)
-  - [Retrieve Data](#retrieve-data)
-  - [Update Data](#update-data)
-  - [Delete Data](#delete-data)
+  - [User Registration](#1-user-registration)
+  - [Generate Token](#2-generate-token)
+  - [Store Data](#3-store-data)
+  - [Retrieve Data](#4-retrieve-data)
+  - [Update Data](#5-update-data)
+  - [Delete Data](#6-delete-data)
 - [Authentication](#authentication)
 - [Database](#database)
 - [Error Handling](#error-handling)
@@ -123,3 +125,37 @@ To get started with DPDZero, follow the instructions below:
    | INVALID_AGE | Invalid age value. Age must be a positive integer. |
    | GENDER_REQUIRED | Gender field is required. Please specify the gender (e.g., male, female, non-binary). |
    | INTERNAL_ERROR | Internal server error occurred. Please try again later. |
+
+2. **Generate Token:**
+
+   **Endpoint**: `POST /api/token`
+   This endpoint is for generating a new access token.
+
+   **Request:**
+
+   ```json
+   {
+     "username": "example_user",
+     "password": "Password@123"
+   }
+   ```
+
+   **Success Response:**
+
+   ```json
+   {
+     "status": "success",
+     "message": "Access token generated successfully.",
+     "data": {
+       "access_token": "<TOKEN>",
+       "expires_in": 3600
+     }
+   }
+   ```
+
+   **Error codes:**
+   | Error Code | Description |
+   | --------------------- | -------------------------------------------------------------------- |
+   | `INVALID_CREDENTIALS` | Invalid credentials. The provided username or password is incorrect. |
+   | `MISSING_FIELDS` | Missing fields. Please provide both username and password. |
+   | `INTERNAL_ERROR` | Internal server error occurred. Please try again later. |
