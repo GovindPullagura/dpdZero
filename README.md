@@ -15,11 +15,7 @@ DPDZero is a web application that allows users to store and manage key-value pai
   - [Retrieve Data](#retrieve-data)
   - [Update Data](#update-data)
   - [Delete Data](#delete-data)
-- [Authentication](#authentication)
-- [Database](#database)
-- [Error Handling](#error-handling)
-- [Contributing](#contributing)
-- [License](#license)
+- [Tech Stack](#tech-stack)
 
 ## Features
 
@@ -170,7 +166,7 @@ To store a key-value pair in the database.
 
 **Request Headers**:
 
-- **`Authorization`**: Bearer **`access_token`**
+- **`Authorization`**:**`access_token`**
 
 ```json
 {
@@ -204,7 +200,7 @@ To retrieve the value associated with a specific key.
 
 **Request Headers**:
 
-- **`Authorization`**: Bearer **`access_token`**
+- **`Authorization`**: **`access_token`**
 
 **Success Response:**
 
@@ -232,7 +228,7 @@ To update the value associated with an existing key.
 
 **Request Headers**:
 
-- **`Authorization`**: Bearer **`access_token`**
+- **`Authorization`**: **`access_token`**
 
 **Request:**
 
@@ -265,7 +261,7 @@ To delete the value associated with an existing key.
 
 **Request Headers**:
 
-- **`Authorization`**: Bearer **`access_token`**
+- **`Authorization`**: **`access_token`**
 
 **Success Response:**
 
@@ -281,3 +277,25 @@ To delete the value associated with an existing key.
 | ------------------ | -------------------------------------------------------------- |
 | `KEY_NOT_FOUND` | The provided key does not exist in the database. |
 | `INVALID_TOKEN` | Invalid access token provided. |
+
+### Tech Stack
+
+DPDZero is built using the following technologies and libraries:
+
+- **Node.js:** The server-side runtime environment for building fast and scalable applications in JavaScript.
+
+- **Express.js:** A minimal and flexible Node.js web application framework used for building robust APIs.
+
+- **MySQL:** A popular open-source relational database management system used to store user accounts and data.
+
+- **Sequelize:** A powerful and flexible Object-Relational Mapping (ORM) library for Node.js and JavaScript, used for managing and interacting with relational databases.
+
+- **JSON Web Tokens (JWT):** A standard for secure authentication and authorization between the server and clients.
+
+- **npm:** The package manager for Node.js, used to manage project dependencies.
+
+- **bcrypt:** A library for securely hashing user passwords before storing them in the database.
+
+- **dotenv:** A module for loading environment variables from a `.env` file, which is used to store sensitive configuration data.
+
+- **nodemon:** A utility that monitors for changes in your application and automatically restarts the server when changes are detected, making development more efficient.
