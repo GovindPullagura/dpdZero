@@ -17,6 +17,7 @@ DPDZero is a web application that allows users to store and manage key-value pai
   - [Update Data](#update-data)
   - [Delete Data](#delete-data)
 - [Tech Stack](#tech-stack)
+- [Video Walkthrough](#video-walkthrough)
 
 ## Features
 
@@ -323,3 +324,7 @@ DPDZero is built using the following technologies and libraries:
 - **dotenv:** A module for loading environment variables from a `.env` file, which is used to store sensitive configuration data.
 
 - **nodemon:** A utility that monitors for changes in your application and automatically restarts the server when changes are detected, making development more efficient.
+
+## Video Walkthrough
+
+[Watch the Explanation Video](https://youtu.be/1V4s9cPpg2s)
