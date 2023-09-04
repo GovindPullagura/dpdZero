@@ -5,10 +5,13 @@ const Data = sequelize.define("Data", {
   key: {
     type: DataTypes.STRING,
     allowNull: false,
-    unique: true,
   },
   value: {
     type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  username: {
+    type: DataTypes.STRING,
     allowNull: false,
   },
 });

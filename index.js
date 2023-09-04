@@ -15,7 +15,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/users", userRouter);
-// app.use(auth);
+app.use(auth);
 app.use("/data", dataRouter);
 
 sequelize.sync().then(() => {

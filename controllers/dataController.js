@@ -1,8 +1,12 @@
 const Data = require("../models/Data");
+const jwt = require("jsonwebtoken");
 
 const DataController = {
   storeData: async (req, res) => {
     try {
+      const token = req.headers.authorization;
+
+      const decoded = jwt.verify(token, "dpdzero");
       const { key, value } = req.body;
 
       const requiredFields = ["key", "value"];
@@ -31,8 +35,20 @@ const DataController = {
         });
       }
 
+      const retrievedData = await Data.findOne({
+        where: { key, username: decoded.username },
+      });
+      if (retrievedData) {
+        return res.status(400).send({
+          status: "error",
+          code: "KEY_EXISTS",
+          message:
+            "The provided key already exists in the database. To update an existing key, use the update API.",
+        });
+      }
       // Create a new record in the "Data" table
       const newData = await Data.create({
+        username: decoded.username,
         key,
         value,
       });
@@ -44,15 +60,6 @@ const DataController = {
       });
     } catch (error) {
       console.error(error);
-
-      if (error.fields.key) {
-        res.status(400).send({
-          status: "error",
-          code: "KEY_EXISTS",
-          message:
-            "The provided key already exists in the database. To update an existing key, use the update API.",
-        });
-      }
       res.status(500).send({
         status: "error",
         code: "INTERNAL_SERVER_ERROR",
@@ -65,14 +72,16 @@ const DataController = {
     try {
       const { key } = req.params;
 
-      const retrievedData = await Data.findOne({ where: { key } });
+      const token = req.headers.authorization;
+      const decoded = jwt.verify(token, "dpdzero");
+
+      const retrievedData = await Data.findOne({
+        where: { key, username: decoded.username },
+      });
       if (retrievedData) {
         res.send({
           status: "success",
-          data: {
-            key: retrievedData.key,
-            value: retrievedData.value,
-          },
+          data: { key: retrievedData.key, value: retrievedData.value },
         });
       } else {
         res.status(400).send({
@@ -96,7 +105,12 @@ const DataController = {
     try {
       const { key } = req.params;
 
-      const retrievedData = await Data.findOne({ where: { key } });
+      const token = req.headers.authorization;
+      const decoded = jwt.verify(token, "dpdzero");
+
+      const retrievedData = await Data.findOne({
+        where: { key, username: decoded.username },
+      });
       if (retrievedData) {
         retrievedData.value = req.body.value;
         await retrievedData.save();
@@ -126,7 +140,13 @@ const DataController = {
   deleteData: async (req, res) => {
     try {
       const { key } = req.params;
-      const retrievedData = await Data.findOne({ where: { key } });
+
+      const token = req.headers.authorization;
+      const decoded = jwt.verify(token, "dpdzero");
+
+      const retrievedData = await Data.findOne({
+        where: { key, username: decoded.username },
+      });
       if (retrievedData) {
         await retrievedData.destroy();
 

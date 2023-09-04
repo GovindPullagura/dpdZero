@@ -157,7 +157,7 @@ const UserController = {
 
       // If the credentials are valid, generate a JWT
       const token = jwt.sign({ username: user.username }, "dpdzero", {
-        expiresIn: "3600", // Adjusted the expiration time as 3600 seconds
+        expiresIn: 3600, // Adjusted the expiration time as 3600 seconds
       });
 
       // Return the token in the response
