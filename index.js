@@ -2,7 +2,9 @@ const express = require("express");
 require("dotenv").config();
 const sequelize = require("./sequelize-config");
 const userRouter = require("./routes/userRoutes");
+const dataRouter = require("./routes/dataRoutes");
 const port = process.env.PORT || 3000;
+const { auth } = require("./middlewares/AuthToken");
 
 const app = express();
 
@@ -13,6 +15,8 @@ app.get("/", (req, res) => {
 });
 
 app.use("/users", userRouter);
+// app.use(auth);
+app.use("/data", dataRouter);
 
 sequelize.sync().then(() => {
   app.listen(port, () => {
