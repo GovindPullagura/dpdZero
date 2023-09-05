@@ -191,7 +191,7 @@ To store a key-value pair in the database.
 
 **Request Headers**:
 
-- **`Authorization`**:**`access_token`**
+- **`Authorization`**:Bearer **`access_token`**
 
 ```json
 {
@@ -225,7 +225,7 @@ To retrieve the value associated with a specific key.
 
 **Request Headers**:
 
-- **`Authorization`**: **`access_token`**
+- **`Authorization`**: Bearer **`access_token`**
 
 **Success Response:**
 
@@ -253,7 +253,7 @@ To update the value associated with an existing key.
 
 **Request Headers**:
 
-- **`Authorization`**: **`access_token`**
+- **`Authorization`**: Bearer **`access_token`**
 
 **Request:**
 
@@ -286,7 +286,7 @@ To delete the value associated with an existing key.
 
 **Request Headers**:
 
-- **`Authorization`**: **`access_token`**
+- **`Authorization`**: Bearer **`access_token`**
 
 **Success Response:**
 

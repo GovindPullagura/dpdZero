@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const DataController = {
   storeData: async (req, res) => {
     try {
-      const token = req.headers.authorization;
+      const token = req.headers.authorization.split(" ")[1];
 
       const decoded = jwt.verify(token, "dpdzero");
       const { key, value } = req.body;
@@ -72,7 +72,8 @@ const DataController = {
     try {
       const { key } = req.params;
 
-      const token = req.headers.authorization;
+      const token = req.headers.authorization.split(" ")[1];
+
       const decoded = jwt.verify(token, "dpdzero");
 
       const retrievedData = await Data.findOne({
@@ -105,7 +106,7 @@ const DataController = {
     try {
       const { key } = req.params;
 
-      const token = req.headers.authorization;
+      const token = req.headers.authorization.split(" ")[1];
       const decoded = jwt.verify(token, "dpdzero");
 
       const retrievedData = await Data.findOne({
@@ -141,7 +142,7 @@ const DataController = {
     try {
       const { key } = req.params;
 
-      const token = req.headers.authorization;
+      const token = req.headers.authorization.split(" ")[1];
       const decoded = jwt.verify(token, "dpdzero");
 
       const retrievedData = await Data.findOne({
